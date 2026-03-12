@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地音乐 - 播放页</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #121212; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+        /* 封面旋转动画 */
+        .rotate-cover { animation: rotate 10s linear infinite; }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* 进度条样式 */
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: #282828;
+            border-radius: 8px;
+            height: 4px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #a855f7;
+            cursor: pointer;
+        }
+        /* 歌词样式 */
+        .lyric-container {
+            height: 48vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scroll-behavior: smooth;
+        }
+        .lyric-line {
+            padding: 4px 0;
+            color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+        .lyric-line.active {
+            color: #a855f7;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<!-- 导航栏 -->
+    <nav class="bg-[#2d1b69]/80 backdrop-blur-md sticky top-0 z-50 py-4 px-6">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <a href="index.html" class="text-2xl font-bold text-purple-300">本地音乐</a>
+            <div class="space-x-6">
+                <a href="yinyue1.html" class="hover:text-purple-300 transition-colors">首页</a>
+                <a href="yinyue2.html" class="hover:text-purple-300 transition-colors">音乐列表</a>
+                <a href="yinyue3.html" class="hover:text-purple-300 transition-colors">播放页</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 播放核心区 -->
+    <section class="flex-grow py-12 px-6 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-[#1e1e1e] rounded-2xl p-8 shadow-xl">
+            <!-- 歌曲信息+封面 -->
+            <div class="flex flex-col md:flex-row items-center gap-8 mb-10">
+                <div class="relative">
+                    <img id="cover" src="images/樱花树的约定.jpg" alt="歌曲封面" class="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover">
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 id="song-title" class="text-3xl md:text-4xl font-bold mb-2">樱花树的约定</h2>
+                    <p id="song-singer" class="text-xl text-gray-300 mb-4">旺仔小乔</p>
+                    <p class="text-gray-400">本地文件：<span id="song-file">song1.mp3</span></p>
+                </div>
+            </div>
+
+            <!-- 播放控制 -->
+            <div class="w-full">
+                <!-- 进度条 -->
+                <div class="mb-6">
+                    <div class="flex justify-between text-gray-400 mb-2">
+                        <span id="current-time">00:00</span>
+                        <span id="total-time">00:00</span>
+                    </div>
+                    <input type="range" id="progress-bar" min="0" max="100" value="0" class="w-full cursor-pointer">
+                </div>
+
+                <!-- 播放/上一曲/下一曲 -->
+                <div class="flex justify-center items-center space-x-8 mb-8">
+                    <button id="prev-btn" class="text-3xl hover:text-purple-400 transition-colors">◀◀</button>
+                    <button id="play-btn" class="text-5xl hover:text-purple-400 transition-colors">▶</button>
+                    <button id="next-btn" class="text-3xl hover:text-purple-400 transition-colors">▶▶</button>
+                </div>
+
+                <!-- 音量控制 -->
+                <div class="flex items-center justify-center space-x-4">
+                    <span class="text-xl">🔊</span>
+                    <input type="range" id="volume-bar" min="0" max="100" value="80" class="w-32 cursor-pointer">
+                </div>
+            </div>
+
+            <!-- LRC歌词区 -->
+            <div class="mt-10 bg-[#282828]/50 rounded-lg p-4">
+                <div id="lyric-container" class="lyric-container">
+                    <p class="lyric-line">加载歌词中...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="mt-auto bg-[#0a0a0a] py-6 px-6 text-center text-gray-500">
+        <p>本地音乐库 © 2025 所有资源均为本地文件</p>
+    </footer>
+
+    <script>
+        // 本地音乐配置（添加了lrc歌词路径）
+        const localSongs = [
+            {
+                id: 1,
+                title: "樱花树下的约定",
+                singer: "旺仔小乔",
+                cover: "images/樱花树下的约定.jpg",
+                src: "music/樱花树下的约定.mp3",
+                filename: "song1.mp3",
+                lrc: "lyrics/樱花树下的约定.lrc.txt"  // LRC歌词文件路径
+            },
+            {
+                id: 2,
+                title: "我想要占据你",
+                singer: "告五人",
+                cover: "images/我想要占据你.jpg",
+                src: "music/我想要占据你.mp3",
+                filename: "song2.mp3",
+                lrc: "lyrics/我想要占据你 .lrc.txt"
+            },
+            {
+                id: 3,
+                title: "烟火里的尘埃",
+                singer: "黄霄雲",
+                cover: "images/烟火里的尘埃.jpg",
+                src: "music/烟火里的尘埃.mp3",
+                filename: "song3.mp3",
+                lrc: "lyrics/烟火里的尘埃.lrc.txt"
+            },
+            {
+                id: 4,
+                title: "寂寞烟火",
+                singer: "蓝心羽",
+                cover: "images/寂寞烟火.jpg",
+                src: "music/寂寞烟火.mp3",
+                filename: "song4.mp3",
+                lrc: "lyrics/寂寞烟火 .lrc.txt"
+            },
+            {
+                id: 5,
+                title: "还是分开",
+                singer: "叶心蕾",
+                cover: "images/还是分开.jpg",
+                src: "music/还是分开.mp3",
+                filename: "song5.mp3",
+                lrc: "lyrics/还是分开.lrc.txt"
+            },
+            {
+                id: 6,
+                title: "第57次取消发送",
+                singer: "旺仔小乔",
+                cover: "images/第57次取消发送.jpg",
+                src: "music/第57次取消发送.mp3",
+                filename: "song6.mp3",
+                lrc: "lyrics/第57次取消发送.lrc.txt"
+            },
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ];
+
+        // 获取URL中的歌曲ID
+        const getSongId = () => {
+            const params = new URLSearchParams(window.location.search);
+            return parseInt(params.get('song')) || 1;
+        };
+
+        // 初始化当前歌曲
+        let currentIndex = localSongs.findIndex(song => song.id === getSongId());
+        const audio = new Audio(localSongs[currentIndex].src);
+        let lyrics = [];  // 存储解析后的歌词
+
+        // DOM元素获取
+        const coverEl = document.getElementById('cover');
+        const titleEl = document.getElementById('song-title');
+        const singerEl = document.getElementById('song-singer');
+        const fileEl = document.getElementById('song-file');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalTimeEl = document.getElementById('total-time');
+        const progressBarEl = document.getElementById('progress-bar');
+        const playBtnEl = document.getElementById('play-btn');
+        const prevBtnEl = document.getElementById('prev-btn');
+        const nextBtnEl = document.getElementById('next-btn');
+        const volumeBarEl = document.getElementById('volume-bar');
+        const lyricContainer = document.getElementById('lyric-container');
+
+        // 解析LRC歌词
+        const parseLRC = (lrcText) => {
+            const lrcLines = lrcText.split('\n');
+            const lyricArray = [];
+            const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/g;
+
+            lrcLines.forEach(line => {
+                if (!line.trim()) return;
+                
+                // 提取时间标签
+                const times = [];
+                let match;
+                while ((match = timeRegex.exec(line)) !== null) {
+                    const minutes = parseInt(match[1]);
+                    const seconds = parseInt(match[2]);
+                    const milliseconds = match[3].length === 3 ? parseInt(match[3]) : parseInt(match[3]) * 10;
+                    const totalSeconds = minutes * 60 + seconds + milliseconds / 1000;
+                    times.push(totalSeconds);
+                }
+
+                // 提取歌词内容
+                const lyric = line.replace(timeRegex, '').trim();
+                if (lyric && times.length > 0) {
+                    times.forEach(time => {
+                        lyricArray.push({ time, lyric });
+                    });
+                }
+            });
+
+            // 按时间排序
+            return lyricArray.sort((a, b) => a.time - b.time);
+        };
+
+        // 加载并显示LRC歌词
+        const loadLyrics = async (lrcPath) => {
+            try {
+                const response = await fetch(lrcPath);
+                if (!response.ok) throw new Error('歌词文件加载失败');
+                
+                const lrcText = await response.text();
+                lyrics = parseLRC(lrcText);
+                renderLyrics();
+            } catch (error) {
+                console.error('加载歌词出错:', error);
+                lyricContainer.innerHTML = '<p class="lyric-line text-red-400">无法加载歌词文件</p>';
+            }
+        };
+
+        // 渲染歌词到页面
+        const renderLyrics = () => {
+            if (lyrics.length === 0) {
+                lyricContainer.innerHTML = '<p class="lyric-line">没有找到歌词</p>';
+                return;
+            }
+
+            lyricContainer.innerHTML = '';
+            lyrics.forEach((line, index) => {
+                const p = document.createElement('p');
+                p.className = 'lyric-line';
+                p.textContent = line.lyric;
+                p.dataset.index = index;
+                lyricContainer.appendChild(p);
+            });
+        };
+
+        // 同步歌词显示
+        const syncLyrics = () => {
+            if (lyrics.length === 0) return;
+
+            const currentTime = audio.currentTime;
+            let activeIndex = -1;
+
+            // 找到当前应该显示的歌词索引
+            for (let i = 0; i < lyrics.length; i++) {
+                if (currentTime >= lyrics[i].time) {
+                    activeIndex = i;
+                } else {
+                    break;
+                }
+            }
+
+            // 更新歌词高亮状态
+            document.querySelectorAll('.lyric-line').forEach((el, index) => {
+                if (index === activeIndex) {
+                    el.classList.add('active');
+                    // 滚动到当前歌词（居中显示）
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+        };
+
+        // 更新歌曲信息
+        const updateSongInfo = () => {
+            const song = localSongs[currentIndex];
+            coverEl.src = song.cover;
+            titleEl.textContent = song.title;
+            singerEl.textContent = song.singer;
+            fileEl.textContent = song.filename;
+            audio.src = song.src;
+            coverEl.classList.remove('rotate-cover');
+            playBtnEl.textContent = '▶';
+            progressBarEl.value = 0;
+            currentTimeEl.textContent = '00:00';
+            
+            // 加载对应歌词
+            loadLyrics(song.lrc);
+        };
+
+        // 格式化时间
+        const formatTime = (seconds) => {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        };
+
+        // 播放/暂停切换
+        playBtnEl.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(err => {
+                    alert('播放失败！请检查：\n1. 音乐文件路径是否正确\n2. 是否用本地服务器打开（如Live Server）\n3. 音乐格式是否为MP3');
+                    console.error('播放错误：', err);
+                });
+                playBtnEl.textContent = '❚❚';
+                coverEl.classList.add('rotate-cover');
+            } else {
+                audio.pause();
+                playBtnEl.textContent = '▶';
+                coverEl.classList.remove('rotate-cover');
+            }
+        });
+
+        // 上一曲
+        prevBtnEl.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + localSongs.length) % localSongs.length;
+            updateSongInfo();
+            audio.play();
+            playBtnEl.textContent = '❚❚';
+            coverEl.classList.add('rotate-cover');
+        });
+
+        // 下一曲
+        nextBtnEl.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % localSongs.length;
+            updateSongInfo();
+            audio.play();
+            playBtnEl.textContent = '❚❚';
+            coverEl.classList.add('rotate-cover');
+        });
+
+        // 进度条更新
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBarEl.value = progress;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            totalTimeEl.textContent = formatTime(audio.duration);
+            
+            // 同步歌词
+            syncLyrics();
+        });
+
+        // 拖动进度条调整播放位置
+        progressBarEl.addEventListener('input', () => {
+            const progress = progressBarEl.value;
+            audio.currentTime = (progress / 100) * audio.duration;
+        });
+
+        // 音量控制
+        volumeBarEl.addEventListener('input', () => {
+            audio.volume = volumeBarEl.value / 100;
+        });
+
+        // 播放完毕自动下一曲
+        audio.addEventListener('ended', () => {
+            nextBtnEl.click();
+        });
+
+        // 初始化
+        updateSongInfo();
+        audio.volume = volumeBarEl.value / 100;
+    </script>
+</body>
+</html>
