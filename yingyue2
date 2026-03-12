@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本地音乐 - 音乐列表</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { background-color: #121212; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+.list-hover { transition: background-color 0.2s ease; }
+</style>
+</head>
+<body>
+<nav class="bg-[#2d1b69]/80 backdrop-blur-md sticky top-0 z-50 py-4 px-6">
+<div class="flex justify-between items-center max-w-7xl mx-auto">
+ <a href="index.html" class="text-2xl font-bold text-purple-300">本地音乐</a>
+ <div class="space-x-6">
+     <a href="yinyue1.html" class="hover:text-purple-300 transition-colors">首页</a>
+    <a href="yinyue2.html" class="hover:text-purple-300 transition-colors">音乐列表</a>
+    <a href="yinyue3.html" class="hover:text-purple-300 transition-colors">播放页</a>
+     </div>
+        </div>
+    </nav>
+
+   
+    <section class="py-8 px-6 bg-[#1e1e1e]/50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">我的全部本地音乐</h2>
+            <p class="text-gray-400">共3首音乐（可自行添加）</p>
+        </div>
+    </section>
+
+    <!-- 音乐列表 -->
+    <section class="py-10 px-6 flex-grow">
+        <div class="max-w-6xl mx-auto bg-[#1e1e1e] rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-[#282828]">
+                    <tr>
+                        <th class="px-6 py-4 text-left">#</th>
+                        <th class="px-6 py-4 text-left">封面</th>
+                        <th class="px-6 py-4 text-left">歌曲名</th>
+                        <th class="px-6 py-4 text-left">歌手</th>
+                        <th class="px-6 py-4 text-left">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 列表歌曲1 -->
+                    <tr class="border-t border-[#282828] list-hover hover:bg-[#282828]/50">
+                        <td class="px-6 py-4">1</td>
+                        <td class="px-6 py-4"><img src="images/樱花树下的约定.jpg" alt="封面" class="w-12 h-12 rounded object-cover"></td>
+                        <td class="px-6 py-4">樱花树下的约定</td>
+                        <td class="px-6 py-4">旺仔小乔</td>
+                        <td class="px-6 py-4">
+                            <a href="yinyue3.html?song=1" class="text-purple-400 hover:text-purple-300 transition-colors">播放</a>
+                        </td>
+                    </tr>
+                    <!-- 列表歌曲2 -->
+                    <tr class="border-t border-[#282828] list-hover hover:bg-[#282828]/50">
+                        <td class="px-6 py-4">2</td>
+                        <td class="px-6 py-4"><img src="images/我想要占据你.jpg" alt="封面" class="w-12 h-12 rounded object-cover"></td>
+                        <td class="px-6 py-4">我想要占据你</td>
+                        <td class="px-6 py-4">告五人</td>
+                        <td class="px-6 py-4">
+                            <a href="yinyue3.html?song=2" class="text-purple-400 hover:text-purple-300 transition-colors">播放</a>
+                        </td>
+                    </tr>
+                    <!-- 列表歌曲3 -->
+                    <tr class="border-t border-[#282828] list-hover hover:bg-[#282828]/50">
+                        <td class="px-6 py-4">3</td>
+                        <td class="px-6 py-4"><img src="images/烟火里的尘埃.jpg" alt="封面" class="w-12 h-12 rounded object-cover"></td>
+                        <td class="px-6 py-4">烟火里的尘埃</td>
+                        <td class="px-6 py-4">黄霄雲</td>
+                        <td class="px-6 py-4">
+                            <a href="yinyue3.html?song=3" class="text-purple-400 hover:text-purple-300 transition-colors">播放</a>
+                        </td>
+                         <!-- 列表歌曲4 -->
+                    </tr>
+                    <tr class="border-t border-[#282828] list-hover hover:bg-[#282828]/50">
+                        <td class="px-6 py-4">4</td>
+                        <td class="px-6 py-4"><img src="images/寂寞烟火.jpg" alt="封面" class="w-12 h-12 rounded object-cover"></td>
+                        <td class="px-6 py-4">寂寞烟火</td>
+                        <td class="px-6 py-4">蓝心羽</td>
+                        <td class="px-6 py-4">
+                            <a href="yinyue3.html?song=4" class="text-purple-400 hover:text-purple-300 transition-colors">播放</a>
+                        </td>
+                    </tr>
+                     <!-- 列表歌曲5 -->
+                      </tr>
+                    <tr class="border-t border-[#282828] list-hover hover:bg-[#282828]/50">
+                        <td class="px-6 py-4">5</td>
+                        <td class="px-6 py-4"><img src="images/还是分开.jpg" alt="封面" class="w-12 h-12 rounded object-cover"></td>
+                        <td class="px-6 py-4">还是分开</td>
+                        <td class="px-6 py-4">叶心蕾</td>
+                        <td class="px-6 py-4">
+                            <a href="yinyue3.html?song=5" class="text-purple-400 hover:text-purple-300 transition-colors">播放</a>
+                        </td>
+                    </tr>
+                    <tr class="border-t border-[#282828] list-hover hover:bg-[#282828]/50">
+                        <td class="px-6 py-4">6</td>
+                        <td class="px-6 py-4"><img src="images/第57次取消发送.jpg" alt="封面" class="w-12 h-12 rounded object-cover"></td>
+                        <td class="px-6 py-4">第57次取消发送</td>
+                        <td class="px-6 py-4">旺仔小乔</td>
+                        <td class="px-6 py-4">
+                            <a href="yinyue3.html?song=6" class="text-purple-400 hover:text-purple-300 transition-colors">播放</a>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="mt-auto bg-[#0a0a0a] py-6 px-6 text-center text-gray-500">
+        <p>本地音乐库 © 2025 所有资源均为本地文件</p>
+    </footer>
+</body>
+</html>
