@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本地音乐 - 首页</title>
+<!-- 仅引入Tailwind CSS（样式用，无外部内容依赖） -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+ /* 自定义本地样式，无外部链接 */
+        .card-hover { transition: transform 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); }
+        body { background-color: #121212; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+<!-- 导航栏（仅跳转本地页面） -->
+<nav class="bg-[#2d1b69]/80 backdrop-blur-md sticky top-0 z-50 py-4 px-6">
+ <div class="flex justify-between items-center max-w-7xl mx-auto">
+ <a href="yinyue1.html" class="text-2xl font-bold text-purple-300">本地音乐</a>
+<div class="space-x-6">
+                <a href="yinyue1.html" class="hover:text-purple-300 transition-colors">首页</a>
+                <a href="yinyue2.html" class="hover:text-purple-300 transition-colors">音乐列表</a>
+                <a href="yinyue3.html" class="hover:text-purple-300 transition-colors">播放页</a>
+</div>
+</div>
+</nav>
+<!-- 首页banner -->
+<section class="bg-gradient-to-b from-[#2d1b69] to-[#121212] py-16 px-6">
+ <div class="max-w-4xl mx-auto text-center">
+<h1 class="text-4xl font-bold mb-4">我的本地音乐库</h1>
+<p class="text-gray-300 mb-8">仅本地播放，无网络依赖</p>
+<a href="yinyue2.html" class="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-full transition-colors">
+                查看全部音乐
+</a>
+</div>
+</section>
+<!-- 推荐歌曲 -->
+<section class="py-12 px-6">
+<h2 class="text-3xl font-bold mb-8 text-center">推荐歌曲</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+<!-- 推荐歌曲1（匹配本地文件） -->
+<div class="bg-[#1e1e1e] rounded-lg overflow-hidden card-hover">
+<img src="images/樱花树下的约定.jpg" alt="歌曲封面" class="w-full h-48 object-cover">
+<div class="p-6">
+<h3 class="text-xl font-semibold mb-2">歌曲 樱花树下的约定</h3>
+<p class="text-gray-400 mb-4">歌手 旺仔小乔</p>
+<a href="yinyue3.html?song=1" class="text-purple-400 hover:text-purple-300 transition-colors">
+                        立即播放 →
+</a>
+</div>
+ </div>
+<!-- 推荐歌曲2 -->
+<div class="bg-[#1e1e1e] rounded-lg overflow-hidden card-hover">
+     <img src="images/我想要占据你.jpg" alt="歌曲封面" class="w-full h-48 object-cover">
+<div class="p-6">
+     <h3 class="text-xl font-semibold mb-2">我想要占据你</h3>
+<p class="text-gray-400 mb-4">告五人</p>
+          <a href="yinyue3.html?song=2" class="text-purple-400 hover:text-purple-300 transition-colors">
+                        立即播放 →
+                    </a>
+                </div>
+</div>
+ <!-- 推荐歌曲3 -->
+ <div class="bg-[#1e1e1e] rounded-lg overflow-hidden card-hover">
+     <img src="images/烟火里的尘埃.jpg" alt="歌曲封面" class="w-full h-48 object-cover">
+<div class="p-6">
+<h3 class="text-xl font-semibold mb-2">烟火里的尘埃</h3>
+<p class="text-gray-400 mb-4">黄霄雲</p>
+     <a href="yinyue3.html?song=3" class="text-purple-400 hover:text-purple-300 transition-colors">
+                        立即播放 →
+      </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="mt-auto bg-[#0a0a0a] py-6 px-6 text-center text-gray-500">
+        <p>本地音乐库 © 2025 所有资源均为本地文件</p>
+    </footer>
+</body>
+</html>
