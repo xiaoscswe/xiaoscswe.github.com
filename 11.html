@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>武器图鉴-防御手榴弹</title>
+    <style>
+        .container { width: 520px; margin: 0 auto; border: 2px solid #602020; padding: 22px; }
+        .mark { color: #b01010; font-weight:bold; }
+        textarea { width:100%; height:80px; box-sizing:border-box; margin:10px 0; }
+        .btns { display:flex; gap:10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>82-2式卵形手榴弹</h1>
+        <div class="mark">步兵近距离爆破杀伤装备</div>
+        <textarea id="textArea" placeholder="记录投掷距离、杀伤半径..."></textarea>
+        <div class="btns">
+            <button id="save">保存</button>
+            <button id="clear">清空</button>
+        </div>
+        <div id="result"></div>
+        <script>
+            let area = document.getElementById("textArea");
+            let res = document.getElementById("result");
+            document.getElementById("save").onclick = ()=> res.innerText = area.value;
+            document.getElementById("clear").onclick = ()=> {area.value="";res.innerText="";}
+        </script>
+    </div>
+</body>
+</html>
