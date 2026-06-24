@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>武器图鉴-冲锋枪</title>
+    <style>
+        .container { width: 520px; margin: 0 auto; border: 2px solid #222255; padding: 22px; }
+        .mark { color: #2040a0; font-weight:bold; }
+        #infoBox { margin-top:12px; line-height:1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QCW-05微声冲锋枪</h1>
+        <div class="mark">特战、侦查微声武器</div>
+        <button id="showBtn">查看详细参数</button>
+        <div id="infoBox"></div>
+        <script>
+            document.getElementById("showBtn").onclick = function(){
+                document.getElementById("infoBox").innerText = "自带消音结构，低噪音，适合敌后渗透、特种隐蔽作战。";
+            }
+        </script>
+    </div>
+</body>
+</html>
