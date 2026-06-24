@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>简易倒计时</title>
+    <style>
+        .box { width: 450px; margin: 80px auto; text-align: center; border: 2px solid #007bff; padding: 30px; border-radius: 10px; }
+        .time { font-size: 40px; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>考试倒计时</h1>
+        <div class="time" id="timeText">加载中...</div>
+    </div>
+    <script>
+        // 目标日期：2026年12月31日
+        const target = new Date("2026-12-31");
+        function update() {
+            let now = new Date();
+            let diff = target - now;
+            let day = Math.floor(diff / (1000*60*60*24));
+            let h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+            let m = Math.floor((diff % (1000*60*60)) / (1000*60));
+            let s = Math.floor((diff % (1000*60)) / 1000);
+            document.getElementById("timeText").innerText = `${day}天 ${h}时 ${m}分 ${s}秒`;
+        }
+        setInterval(update,1000);
+        update();
+    </script>
+</body>
+</html>
